@@ -6,7 +6,10 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5, minimal-ui, shrink-to-fit=no">
         <meta name="theme-color" content="#f7f5f5">
 
-		<title>{{ title }}</title>
+        <title>{{ title }}</title>
+        
+        <!-- CSS -->
+        <link rel="stylesheet" href="{{ url_for('static', filename=assets['app.css']) }}">
     </head>
 
     <body>

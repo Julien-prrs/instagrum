@@ -5,5 +5,13 @@ Thumbs.db
 ## Mac
 .DS_Store
 
-## Python
+## Webpack build assets
+static/css/*
+static/js/*
+static/manifest.json
+
+## Dependencies
 __pycache__
+node_modules
+.sass-cache
+.log

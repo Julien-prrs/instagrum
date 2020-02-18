@@ -1,8 +1,33 @@
 {
   "name": "instagrum",
   "version": "1.0.0",
-  "main": "index.js",
   "repository": "https://github.com/Julien-prrs/instagrum",
   "author": "Julien-prrs <perros.julien@outlook.fr>",
-  "license": "MIT"
+  "license": "MIT",
+  "scripts": {
+    "build": "webpack -p --config webpack.prod.js",
+    "start": "webpack --watch --config webpack.dev.js"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.5.5",
+    "@babel/plugin-proposal-class-properties": "^7.5.5",
+    "@babel/preset-env": "^7.5.5",
+    "autoprefixer": "^9.6.1",
+    "babel-loader": "^8.0.6",
+    "browser-sync": "^2.26.7",
+    "browser-sync-webpack-plugin": "^2.2.2",
+    "clean-webpack-plugin": "^3.0.0",
+    "css-loader": "^3.2.0",
+    "cssnano": "^4.1.10",
+    "mini-css-extract-plugin": "^0.8.0",
+    "node-sass": "^4.12.0",
+    "postcss-loader": "^3.0.0",
+    "sass-loader": "^8.0.0",
+    "uglifyjs-webpack-plugin": "^2.2.0",
+    "webpack": "^4.39.3",
+    "webpack-cli": "^3.3.7",
+    "webpack-manifest-plugin": "^2.2.0",
+    "webpack-merge": "^4.2.2"
+  },
+  "dependencies": {}
 }

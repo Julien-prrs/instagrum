@@ -1,0 +1,67 @@
+/* ---------------- */
+/* --- Settings --- */
+/* ---------------- */
+
+$screen-xs-max: 0px;
+$screen-ss-max: 375px;
+$screen-sm-max: 550px;
+$screen-md-max: 768px;
+$screen-lg-max: 992px;
+$screen-xl-max: 1200px;
+$screen-xxl-max: 1560px;
+
+
+
+/* -------------- */
+/* --- Mixins --- */
+/* -------------- */
+
+@mixin xs {
+    @media (min-width: #{$screen-xs-max}) {
+       @content;
+    }
+}
+
+@mixin ss {
+    @media (min-width: #{$screen-ss-max}) {
+       @content;
+    }
+}
+
+@mixin sm {
+    @media (min-width: #{$screen-sm-max}) {
+       @content;
+    }
+}
+
+@mixin md {
+    @media (min-width: #{$screen-md-max}) {
+        @content;
+    }
+}
+
+@mixin lg {
+    @media (min-width: #{$screen-lg-max}) {
+       @content;
+    }
+}
+
+@mixin xl {
+    @media (min-width: #{$screen-xl-max}) {
+        @content;
+    }
+}
+
+@mixin xxl {
+    @media (min-width: #{$screen-xxl-max}) {
+        @content;
+    }
+}
+
+
+// Custom break-point
+@mixin rwd($screen) {
+    @media (min-width: $screen+'px') {
+        @content;
+    }
+}

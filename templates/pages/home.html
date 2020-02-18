@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div class="view view--home" data-namespace="home">
+        <main>
+            <h1>Page - Home</h1>
+            <h2>Utilisateurs</h2>
+            <ul>
+                {% for user in users %}
+                    <li>{{ user.firstname }}</li>
+                {% endfor %}
+            </ul>
+        </main>
+    </div>
+{% endblock %}
