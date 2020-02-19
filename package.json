@@ -8,6 +8,9 @@
     "build": "webpack -p --config webpack.prod.js",
     "start": "webpack --watch --config webpack.dev.js"
   },
+  "dependencies": {
+    "materialize-css": "^1.0.0"
+  },
   "devDependencies": {
     "@babel/core": "^7.5.5",
     "@babel/plugin-proposal-class-properties": "^7.5.5",
@@ -28,6 +31,5 @@
     "webpack-cli": "^3.3.7",
     "webpack-manifest-plugin": "^2.2.0",
     "webpack-merge": "^4.2.2"
-  },
-  "dependencies": {}
+  }
 }

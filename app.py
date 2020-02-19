@@ -3,7 +3,7 @@ from flask_pymongo import PyMongo
 
 # App
 app = Flask(__name__, static_folder="static", template_folder="templates")
-app.config["MONGO_URI"] = "mongodb://localhost:27017/flaskInstagram";
+app.config["MONGO_URI"] = "mongodb://localhost:27017/instagrum";
 mongo = PyMongo(app);
 
 
@@ -17,5 +17,4 @@ def manage_assets():
 @app.route('/')
 def home():
     users = mongo.db.users.find();
-    return render_template('layouts/home.html', title="Accueil", users=users);
-    return render_template('pages/home.html', title="Accueil")
+    return render_template('pages/home.html', title="Accueil", users=users)

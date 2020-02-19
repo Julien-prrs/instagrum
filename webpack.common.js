@@ -53,7 +53,7 @@ let config = {
   ]
 }
 
-if (packages.dependencies && packages.dependencies[0]) {
+if (packages.dependencies && Object.keys(packages.dependencies).length > 0) {
   config.entry = {
     ...config.entry,
     vendor: Object.keys(packages.dependencies)
