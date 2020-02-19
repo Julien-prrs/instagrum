@@ -1,10 +1,10 @@
 ## Installation
 ```sh
-$ pipenv install --dev
-$ yarn install
+> pipenv install --dev
+> yarn install
 ```
 
-## Développement
+## Development
 ``` sh
 > pipenv run dev
 > yarn start
