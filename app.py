@@ -17,4 +17,4 @@ def manage_assets():
 @app.route('/')
 def home():
     users = mongo.db.users.find();
-    return render_template('pages/home.html', title="Accueil", users=users)
+    return render_template('pages/login.html', title="Accueil", users=users)

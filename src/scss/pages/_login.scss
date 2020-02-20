@@ -1,0 +1,114 @@
+.loginPage {    
+    height: 100vh;
+    background-color: #FAFAFA !important;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.iphoneMockup {
+    position: absolute;
+    padding-right: 365px;
+    width: 1000px;
+
+    @include ss { display: none }
+    @include lg { display: inline-block }
+}
+
+.loginCards {
+    display: inline-block;
+    position: absolute;
+
+    @include ss { padding-left: 365px }
+    
+}
+
+.loginCard {
+    margin-left: auto;
+    margin-right: auto;
+
+    @include ss { width: 85% }
+    @include lg { width: 325px }
+}
+
+.imgCard {
+    width: 35%;
+    display: block;
+    margin: 0 auto 5% auto;
+}
+
+.titleCard {
+    text-align: center;
+    font-size: xx-large !important;
+}
+
+.textFieldsCard {
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.input-field label {
+    color: #EE6E73;
+}
+/* label focus color */
+.input-field input[type=text]:focus + label {
+    color: #EE6E73;
+}
+/* label underline focus color */
+.input-field input[type=text]:focus {
+    border-bottom: 1px solid #EE6E73;
+    box-shadow: 0 1px 0 0 #EE6E73;
+}
+/* valid color */
+.input-field input[type=text].valid {
+    border-bottom: 1px solid #EE6E73;
+    box-shadow: 0 1px 0 0 #EE6E73;
+}
+/* invalid color */
+.input-field input[type=text].invalid {
+    border-bottom: 1px solid #EE6E73;
+    box-shadow: 0 1px 0 0 #EE6E73;
+}
+/* icon prefix focus color */
+.input-field .prefix.active {
+    color: #EE6E73;
+}
+
+.btnCard {
+    background-color: #EE6E73 !important;
+    width: 80%;
+    display: block !important;
+    margin: 10% auto 5% auto !important;
+}
+
+.btnCardNoAcc {    
+    background-color: #EE6E73 !important;
+    width: 80%;
+    display: block !important;
+    margin: 5% auto 2.5% auto !important;
+}
+
+.lineCard {
+    margin: 10% 0 5% 0;
+    text-align: center;
+}
+
+.rounded {
+    width: 30%;
+    color: lightgrey;
+    background-color: lightgrey;
+    border-top: 1px solid lightgrey;
+    border-radius: 5px;
+}
+
+.mdpOublie {
+    text-align: center;
+    font-style: italic;
+    cursor: pointer;
+}
+
+.noAccount {
+    text-align: center;
+}

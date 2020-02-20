@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+
+{% block content %}
+	<div class="view view--login loginPage" data-namespace="login">
+		
+		<img src="../../static/images/iphoneMockups.png" class="iphoneMockup" />
+
+		<div class="loginCards">
+			<div class="loginCard">
+				<div class="card darken-1">
+					<div class="card-content white-text">
+
+						<img src="../../static/images/image.png" class="imgCard" />
+
+						<span class="card-title titleCard">InstaGrum'</span>
+
+						<div class="input-field textFieldsCard">
+							<input type="text" class="validate">
+							<label for="identifiant">Identifiant</label>
+						</div>
+
+						<div class="input-field textFieldsCard">
+							<input type="password" class="validate">
+							<label for="password">Mot de passe</label>
+						</div> 
+
+						<a class="btn btnCard">Se connecter</a>
+
+						<div class="lineCard">
+							<hr class="rounded" style="display: inline-block;"> 
+							<p style="display: inline-block;">Ou</p>
+							<hr class="rounded" style="display: inline-block;">
+						</div>
+
+						<p class="mdpOublie" onClick="console.log('test')">Mot de passe oublié ?</p>
+						
+					</div>
+				</div>
+			</div>
+
+			<div class="loginCard">
+				<div class="card darken-1">
+					<div class="card-content white-text">
+
+						<p class="noAccount">Vous n'avez pas de compte ?</p>
+
+						<a class="btn btnCardNoAcc">Inscrivez-vous</a>
+						
+					</div>
+				</div>
+			</div>
+
+		</main>
+	</div>
+{% endblock %}
