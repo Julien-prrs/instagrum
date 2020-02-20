@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% block content %}
+
+    <main class="view view--profile" data-namespace="profile">
+        <div class="container">
+            <div class="row center-xs">
+                <div class="col-lg-10">
+
+                    <div class="profile-banner">
+                        <div class="row middle-xs">
+                            <div class="profile-banner__pic col-lg-3">
+                                <img src="https://via.placeholder.com/240" alt="Photo de profile">
+                            </div>
+                            <div class="profile-banner__content col-lg-6">
+                                <h3>Julien-prrs</h3>
+                                <p>
+                                    Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+                                    Natus tempore dicta veniam eius odit voluptatum possimus vitae deserunt, ipsa fugit quisquam quod magni, assumenda placeat velit officia corporis ullam praesentium.
+                                </p>
+                                <button class="btn-small wave-light waves-effect">
+                                    <i class="material-icons right">add_circle_outline</i>
+                                    Suivre
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="profile-grid">
+                        <div class="row profile-grid__items">
+
+                            {% for i in range(8) %}
+                                <div class="col-lg-4" style="padding: 10px;">
+                                    <div class="card" style="margin: 0;">
+                                        <a href="{{ url_for('post', id="dlfjdogjoetdger") }}" style="display: block;" class="card-image">
+                                            <img src="https://via.placeholder.com/540">
+                                        </a>
+                                        <div class="card-content">
+                                            <div class="row" style="margin-bottom: 0;">
+                                                <span style="cursor: pointer; margin-right: 15px;"><i class="material-icons left" style="margin-right: 5px">favorite_border</i>54</span>
+                                                <span style="cursor: pointer; margin-right: 15px;"><i class="material-icons left" style="margin-right: 5px">chat_bubble_outline</i>2</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endfor %}
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+{% endblock %}
