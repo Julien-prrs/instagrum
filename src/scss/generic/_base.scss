@@ -38,16 +38,10 @@ button {
 a {
   color:           currentColor;
   text-decoration: none;
-
-  &:hover {
-    text-decoration: underline;
-  }
 }
 
 p,
-span,
-a,
-li {
+span {
   color:       $color_primary;
   font-size:   1rem;
   line-height: 1.5em;

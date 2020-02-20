@@ -30,34 +30,13 @@
     </head>
 
     <body>
-        <header class="site__header">
-            <div class="navbar-fixed">
-                <nav style="padding: 0 25px;">
-                    <div class="nav-wrapper">
-                        <a href="{{ url_for('home') }}" style="margin-right: 25px; display: flex; flex-flow: wrap column; justify-content: center; align-items: center; height: 100%" class="brand-logo">
-                            <img src="https://via.placeholder.com/100x50">
-                        </a>
-                        <ul class="right hide-on-med-and-down">
-                            <li>
-                                <div class="center row">
-                                    <div class="col s12 ">
-                                        <div class="row" id="topbarsearch">
-                                            <div class="input-field col s6 s12">
-                                                <i class="material-icons prefix" style="top: 0;">search</i>
-                                                <input type="text" placeholder="search" id="autocomplete-input" class="autocomplete">
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </li>
-                            {% if current_user.is_authenticated %}
-                                <li><a href="{{ url_for('profile', username=current_user.username) }}"><i class="material-icons">account_circle</i></a></li>
-                                <li><a href="{{ url_for('logout') }}"><i class="material-icons">exit_to_app</i></a></li>
-                            {% endif %}
-                        </ul>
-                    </div>
-                </nav>
+        <div class="container">
+            <div class="row center-xs">
+                <div class="col-lg-8" style="text-align: left;">
+                    <h3>Oupsi</h3>
+                    <p>L'instagrum est cassé 🤷‍♂️, réessayez plus tard.</p>
+                </div>
             </div>
-        </header>
-
-        <div id="app" class="site__container">
+        </div>
+    </body>
+</html>

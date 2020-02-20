@@ -1,0 +1,26 @@
+.post {
+    display:    flex;
+    flex-flow:  wrap row;
+    margin-top: 50px;
+    width:      140vh;
+
+    .post__picture,
+    .post__content {
+        height:   70vh;
+        overflow: hidden;
+        width:    50%;
+    }
+
+    .post__picture {
+        img {
+            height:     100%;
+            object-fit: cover;
+            width:      100%;
+        }
+    }
+
+    .post__content {
+        padding:    50px;
+        text-align: left;
+    }
+}
