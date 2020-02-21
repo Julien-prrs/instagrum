@@ -33,12 +33,12 @@
         <div id="app" class="site__container">
 
 		{% block content %}
-		<div class="view view--login loginPage" data-namespace="login">
+		<div class="view view--inscription inscriptionPage" data-namespace="inscription">
 			
 			<img src="../../static/images/iphoneMockups.png" class="iphoneMockup" />
 
-			<div class="loginCards">
-				<form class="loginCard" method="POST">
+			<div class="inscriptionCards">
+				<form class="inscriptionCard" method="POST">
 					<div class="card darken-1">
 						<div class="card-content white-text">
 
@@ -47,36 +47,44 @@
 							<span class="card-title titleCard">InstaGrum'</span>
 
 							<div class="input-field textFieldsCard">
-								<input type="text" class="validate" name="login[username]">
-								<label for="identifiant">Identifiant</label>
+								<input type="text" class="validate" name="inscription[firstName]">
+								<label for="prenom">Prenom</label>
 							</div>
 
 							<div class="input-field textFieldsCard">
-								<input type="password" class="validate" name="login[password]">
+								<input type="text" class="validate" name="inscription[lastName]">
+								<label for="name">Nom</label>
+							</div>
+
+							<div class="input-field textFieldsCard">
+								<input type="text" class="validate" name="inscription[userName]">
+								<label for="userName">Nom d'utilisateur</label>
+                            </div>
+                            
+
+							<div class="input-field textFieldsCard">
+								<input type="text" class="validate" name="inscription[mail]">
+								<label for="mail">Adresse mail</label>
+							</div>
+
+							<div class="input-field textFieldsCard">
+								<input type="password" class="validate" name="inscription[password]">
 								<label for="password">Mot de passe</label>
 							</div>
 
-							<button class="btn btnCard" type="submit" name="action">Se connecter</button>
-
-							<div class="lineCard">
-								<hr class="rounded" style="display: inline-block;"> 
-								<p style="display: inline-block;">Ou</p>
-								<hr class="rounded" style="display: inline-block;">
-							</div>
-
-							<p class="mdpOublie">Mot de passe oublié ?</p>
+							<button class="btn btnCard" type="submit" name="action">Suivant</button>
 							
 						</div>
 					</div>
-				</form>
-
-				<div class="loginCard">
+                </form>
+                
+                <div class="inscriptionCard">
 					<div class="card darken-1">
 						<div class="card-content white-text">
 
-							<p class="noAccount">Vous n'avez pas de compte ?</p>
+							<p class="noAccount">Vous avez un compte ?</p>
 							
-							<a class="btn btnCardNoAcc" href="{{ url_for('inscription') }}">Inscrivez-vous</a>
+							<a class="btn btnCardNoAcc" href="{{ url_for('login') }}">Connectez-vous</a>
 							
 						</div>
 					</div>

@@ -16,30 +16,30 @@ login_manager.init_app(app)
 
 # Class
 class User(UserMixin):
-    def __init__(self, user):
-        for key in user:
-            setattr(self, key, user[key])
+	def __init__(self, user):
+		for key in user:
+			setattr(self, key, user[key])
 
-    def get_id(self):
-        return str(self._id)
+	def get_id(self):
+		return str(self._id)
 
-    def findById(_id:str):
-        user = mongo.db.users.find_one({ "_id": ObjectId(_id) })
-        return User(user)
+	def findById(_id:str):
+		user = mongo.db.users.find_one({ "_id": ObjectId(_id) })
+		return User(user)
 
-    def findByUsername(username:str):
-        user = mongo.db.users.find_one({ "username": username })
-        if user is not None:
-            return User(user)
-        else:
-            return None
+	def findByUsername(username:str):
+		user = mongo.db.users.find_one({ "username": username })
+		if user is not None:
+			return User(user)
+		else:
+			return None
 
-    def authenticate(username:str, password:str):
-        user = mongo.db.users.find_one({ "$or": [{"username": username},{"email": username}], "password": password })
-        if user is not None:
-            user = User(user)
-        return user
-        
+	def authenticate(username:str, password:str):
+		user = mongo.db.users.find_one({ "$or": [{"username": username},{"email": username}], "password": password })
+		if user is not None:
+			user = User(user)
+		return user
+		
 
 
 # --------------------- #
@@ -48,7 +48,7 @@ class User(UserMixin):
 
 @login_manager.user_loader
 def load_user(user_id:str):
-    return User.findById(user_id)
+	return User.findById(user_id)
 
 
 
@@ -58,7 +58,7 @@ def load_user(user_id:str):
 
 @app.context_processor
 def manage_assets():
-    return dict(assets=json.load(open('./static/manifest.json')))
+	return dict(assets=json.load(open('./static/manifest.json')))
 
 
 
@@ -68,48 +68,66 @@ def manage_assets():
 
 @app.route('/')
 def home():
-    users = mongo.db.users.find();
-    return render_template('pages/home.html', title="Accueil", users=users)
+	users = mongo.db.users.find();
+	return render_template('pages/home.html', title="Accueil", users=users)
 
 
 @app.route('/user/<string:username>')
 def profile(username):
-    user = User.findByUsername(username);
-    if user is not None:
-        return render_template('pages/profile.html', title="Profile")
-    else:
-        return abort(404, "Désolé, cette instagrumeur n'existe pas")
+	user = User.findByUsername(username);
+	if user is not None:
+		return render_template('pages/profile.html', title="Profile")
+	else:
+		return abort(404, "Désolé, cette instagrumeur n'existe pas")
 
 
 @app.route('/post/<string:id>')
 def post(id):
-    return render_template('pages/post.html', title="post")
+	return render_template('pages/post.html', title="post")
 
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
-    if not current_user.is_authenticated:
-        if request.form is not None:
-            username = request.form.get('login[username]')
-            password = request.form.get('login[password]')
-            user = User.authenticate(username, password)
+	if not current_user.is_authenticated:
+		if request.form is not None:
+			username = request.form.get('login[username]')
+			password = request.form.get('login[password]')
+			user = User.authenticate(username, password)
 
-            if (user is not None):
-                login_user(user)
-                return redirect(url_for('home'));
-        
-        return render_template('pages/login.html', title="login")
-    else:
-        return redirect(url_for('home'))
-
+			if (user is not None):
+				login_user(user)
+				return redirect(url_for('home'));
+		
+		return render_template('pages/login.html', title="login")
+	else:
+		return redirect(url_for('home'))
 
 @app.route('/logout')
 def logout():
-    if current_user.is_authenticated:
-        logout_user()
-    return redirect(url_for('login'))
+	if current_user.is_authenticated:
+		logout_user()
+	return redirect(url_for('login'))
 
 
+@app.route('/inscription', methods=['GET', 'POST'])
+def inscription():
+	users = mongo.db.users.find()
+
+	if request.form is not None:
+		firstName = request.form.get('inscription[firstName]')
+		lastName = request.form.get('inscription[lastName]')
+		userName = request.form.get('inscription[userName]')
+		mail = request.form.get('inscription[mail]')
+		password = request.form.get('inscription[password]')
+		if firstName != "" and lastName != "" and userName != "" and mail != "" and password != "" :
+			print(firstName)		
+			print(lastName)		
+			print(userName)		
+			print(mail)		
+			print(password)		
+		return render_template('pages/inscription.html', title="inscription")
+
+	return redirect(url_for('home'))
 
 
 # ---------------------- #
@@ -118,8 +136,8 @@ def logout():
 
 @app.errorhandler(404)
 def http404(error):
-    return render_template('404.html', error=error)
+	return render_template('404.html', error=error)
 
 @app.errorhandler(500)
 def http404(error):
-    return render_template('500.html', error=error)
+	return render_template('500.html', error=error)
