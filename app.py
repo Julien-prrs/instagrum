@@ -97,7 +97,7 @@ def login():
 
 			if (user is not None):
 				login_user(user)
-				return redirect(url_for('home'));
+				return redirect(url_for('home'))
 		
 		return render_template('pages/login.html', title="login")
 	else:
@@ -110,22 +110,27 @@ def logout():
 
 @app.route('/inscription', methods=['GET', 'POST'])
 def inscription():
-    if request.form is not None:
-        firstName = request.form.get('inscription[firstName]')
-        lastName = request.form.get('inscription[lastName]')
-        userName = request.form.get('inscription[userName]')
-        mail = request.form.get('inscription[mail]')
-        password = request.form.get('inscription[password]')
-        
-        if firstName != "" and lastName != "" and userName != "" and mail != "" and password != "":
-            print(firstName)
-            print(lastName)
-            print(userName)
-            print(mail)
-            print(password)
+	users = mongo.db.users.find()
 
-        return render_template('pages/inscription.html', title="inscription")
-    return redirect(url_for('home'))
+	if request.form is not None:
+		firstName = request.form.get('inscription[firstName]')
+		lastName = request.form.get('inscription[lastName]')
+		userName = request.form.get('inscription[userName]')
+		mail = request.form.get('inscription[mail]')
+		password = request.form.get('inscription[password]')
+		if firstName != "" and lastName != "" and userName != "" and mail != "" and password != "" :
+			x = {
+				"firstname": firstName,
+				"lastname": lastName,
+				"username": userName,
+				"email": mail,
+				"password": password
+			}
+			print(x)
+			mongo.db.users.insert_one(x)
+		return render_template('pages/inscription.html', title="inscription")
+
+	return redirect(url_for('home'))
 
 
 # ---------------------- #
