@@ -1,4 +1,6 @@
 import "../scss/main.scss";
 import Instagrum from './app.js';
 
-document.addEventListener('DOMContentLoaded', () => new Instagrum());
+const view = document.querySelector('.view');
+
+document.addEventListener('DOMContentLoaded', () => new Instagrum(view.dataset.namespace));
