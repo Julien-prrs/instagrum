@@ -2,10 +2,38 @@
 {% block content %}
     <div class="view view--home" data-namespace="home">
         <main>
-            <ul style="margin: 75px 0 0 75px">
-                <li><strong style="font-weight: bolder;">Authenticated:</strong>{{ current_user.is_authenticated }}</li>
-                <li><strong style="font-weight: bolder;">username:</strong> {{ current_user.username }}</li>
-            </ul>
+            <div class="container">
+                <div class="row center-xs">
+                    <div class="timeline col-lg-10">
+                        <div class="row">
+                            <div class="col-lg-8">
+                                {% for i in range(8) %}
+                                    <div style="padding: 10px;">
+                                        <div class="card" style="margin: 0;">
+                                            <a href="{{ url_for('post', id="dlfjdogjoetdger") }}" style="display: block;" class="card-image">
+                                                <img src="https://via.placeholder.com/540">
+                                            </a>
+                                            <div class="card-content">
+                                                <div class="row" style="margin-bottom: 0;">
+                                                    <span style="cursor: pointer; margin-right: 15px;"><i class="material-icons left"
+                                                            style="margin-right: 5px">favorite_border</i>54</span>
+                                                    <span style="cursor: pointer; margin-right: 15px;"><i class="material-icons left"
+                                                            style="margin-right: 5px">chat_bubble_outline</i>2</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                            <div class="col-lg-4" style="padding: 5px 0 0 30px">
+                                <div class="card" style="height: 380px;">
+                                    <!-- Card content here -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </main>
     </div>
 {% endblock %}

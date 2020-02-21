@@ -7,7 +7,7 @@ app = Flask(__name__, static_folder="static", template_folder="templates")
 app.config["MONGO_URI"] = "mongodb://localhost:27017/instagrum";
 app.secret_key = b'"<Q\n]\xe6\x03rp\x95\xc8\xa4\xf0\xcb\xd4e'
 
-mongo = PyMongo(app);
+mongo = PyMongo(app)
 
 login_manager = LoginManager()
 login_manager.login_view = "login"
@@ -76,7 +76,7 @@ def home():
 def profile(username):
     user = User.findByUsername(username);
     if user is not None:
-        return render_template('pages/profile.html', title="Profile")
+        return render_template('pages/profile.html', title="Profile", user=user)
     else:
         return abort(404, "Désolé, cette instagrumeur n'existe pas")
 
@@ -104,10 +104,9 @@ def login():
 
 
 @app.route('/logout')
+@login_required
 def logout():
-    if current_user.is_authenticated:
-        logout_user()
-    return redirect(url_for('login'))
+    logout_user()
 
 
 

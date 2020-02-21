@@ -53,6 +53,8 @@
                             {% if current_user.is_authenticated %}
                                 <li><a href="{{ url_for('profile', username=current_user.username) }}"><i class="material-icons">account_circle</i></a></li>
                                 <li><a href="{{ url_for('logout') }}"><i class="material-icons">exit_to_app</i></a></li>
+                            {% else %}
+                                <li><a href="{{ url_for('login') }}"><i class="material-icons">account_circle</i></a></li>
                             {% endif %}
                         </ul>
                     </div>
