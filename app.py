@@ -96,7 +96,7 @@ def login():
 
 			if (user is not None):
 				login_user(user)
-				return redirect(url_for('home'));
+				return redirect(url_for('home'))
 		
 		return render_template('pages/login.html', title="login")
 	else:
@@ -120,11 +120,15 @@ def inscription():
 		mail = request.form.get('inscription[mail]')
 		password = request.form.get('inscription[password]')
 		if firstName != "" and lastName != "" and userName != "" and mail != "" and password != "" :
-			print(firstName)		
-			print(lastName)		
-			print(userName)		
-			print(mail)		
-			print(password)		
+			x = {
+				"firstname": firstName,
+				"lastname": lastName,
+				"username": userName,
+				"email": mail,
+				"password": password
+			}
+			print(x)
+			mongo.db.users.insert_one(x)
 		return render_template('pages/inscription.html', title="inscription")
 
 	return redirect(url_for('home'))
