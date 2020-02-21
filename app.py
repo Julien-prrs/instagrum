@@ -67,6 +67,7 @@ def manage_assets():
 # -------------- #
 
 @app.route('/')
+@login_required
 def home():
 	users = mongo.db.users.find();
 	return render_template('pages/home.html', title="Accueil", users=users)
@@ -107,21 +108,24 @@ def login():
 def logout():
     logout_user()
 
-	if request.form is not None:
-		firstName = request.form.get('inscription[firstName]')
-		lastName = request.form.get('inscription[lastName]')
-		userName = request.form.get('inscription[userName]')
-		mail = request.form.get('inscription[mail]')
-		password = request.form.get('inscription[password]')
-		if firstName != "" and lastName != "" and userName != "" and mail != "" and password != "" :
-			print(firstName)		
-			print(lastName)		
-			print(userName)		
-			print(mail)		
-			print(password)		
-		return render_template('pages/inscription.html', title="inscription")
+@app.route('/inscription', methods=['GET', 'POST'])
+def inscription():
+    if request.form is not None:
+        firstName = request.form.get('inscription[firstName]')
+        lastName = request.form.get('inscription[lastName]')
+        userName = request.form.get('inscription[userName]')
+        mail = request.form.get('inscription[mail]')
+        password = request.form.get('inscription[password]')
+        
+        if firstName != "" and lastName != "" and userName != "" and mail != "" and password != "":
+            print(firstName)
+            print(lastName)
+            print(userName)
+            print(mail)
+            print(password)
 
-	return redirect(url_for('home'))
+        return render_template('pages/inscription.html', title="inscription")
+    return redirect(url_for('home'))
 
 
 # ---------------------- #
