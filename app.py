@@ -72,7 +72,6 @@ def manage_assets():
 @app.route('/')
 @login_required
 def home():
-	# logout_user()
 	return render_template('pages/home.html', title="Accueil")
 
 
@@ -97,7 +96,6 @@ def login():
 			username = request.form.get('login[username]')
 			password = request.form.get('login[password]')
 			user = User.authenticate(username, password)
-
 			if (user is not None):
 				login_user(user)
 				return redirect(url_for('home'))
