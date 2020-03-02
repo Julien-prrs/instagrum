@@ -12,10 +12,9 @@
                                 <img src="https://via.placeholder.com/240" alt="Photo de profile">
                             </div>
                             <div class="profile-banner__content col-lg-6">
-                                <h3>Julien-prrs</h3>
+                                <h3>{{ user.firstname ~ ' ' ~ user.lastname }} ({{ user.username }})</h3>
                                 <p>
-                                    Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-                                    Natus tempore dicta veniam eius odit voluptatum possimus vitae deserunt, ipsa fugit quisquam quod magni, assumenda placeat velit officia corporis ullam praesentium.
+                                    {{ user.description }}
                                 </p>
                                 <button class="btn-small wave-light waves-effect">
                                     <i class="material-icons right">add_circle_outline</i>

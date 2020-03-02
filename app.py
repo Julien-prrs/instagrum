@@ -4,10 +4,10 @@ from flask_pymongo import PyMongo, ObjectId
 
 # App
 app = Flask(__name__, static_folder="static", template_folder="templates")
-app.config["MONGO_URI"] = "mongodb://localhost:27017/instagrum";
+app.config["MONGO_URI"] = "mongodb://localhost:27017/instagrum"
 app.secret_key = b'"<Q\n]\xe6\x03rp\x95\xc8\xa4\xf0\xcb\xd4e'
 
-mongo = PyMongo(app);
+mongo = PyMongo(app)
 
 login_manager = LoginManager()
 login_manager.login_view = "login"
@@ -67,6 +67,7 @@ def manage_assets():
 # -------------- #
 
 @app.route('/')
+@login_required
 def home():
 	users = mongo.db.users.find();
 	return render_template('pages/home.html', title="Accueil", users=users)
@@ -74,11 +75,11 @@ def home():
 
 @app.route('/user/<string:username>')
 def profile(username):
-	user = User.findByUsername(username);
-	if user is not None:
-		return render_template('pages/profile.html', title="Profile")
-	else:
-		return abort(404, "Désolé, cette instagrumeur n'existe pas")
+    user = User.findByUsername(username);
+    if user is not None:
+        return render_template('pages/profile.html', title="Profile", user=user)
+    else:
+        return abort(404, "Désolé, cette instagrumeur n'existe pas")
 
 
 @app.route('/post/<string:id>')
@@ -103,35 +104,34 @@ def login():
 		return redirect(url_for('home'))
 
 @app.route('/logout')
+@login_required
 def logout():
-	if current_user.is_authenticated:
-		logout_user()
-	return redirect(url_for('login'))
-
+    logout_user()
+    return redirect(url_for('login'))
 
 @app.route('/inscription', methods=['GET', 'POST'])
 def inscription():
-	users = mongo.db.users.find()
+    users = mongo.db.users.find()
+    
+    if request.form is not None:
+        firstName = request.form.get('inscription[firstName]')
+        lastName = request.form.get('inscription[lastName]')
+        userName = request.form.get('inscription[userName]')
+        mail = request.form.get('inscription[mail]')
+        password = request.form.get('inscription[password]')
 
-	if request.form is not None:
-		firstName = request.form.get('inscription[firstName]')
-		lastName = request.form.get('inscription[lastName]')
-		userName = request.form.get('inscription[userName]')
-		mail = request.form.get('inscription[mail]')
-		password = request.form.get('inscription[password]')
-		if firstName != "" and lastName != "" and userName != "" and mail != "" and password != "" :
-			x = {
-				"firstname": firstName,
-				"lastname": lastName,
-				"username": userName,
-				"email": mail,
-				"password": password
-			}
-			print(x)
-			mongo.db.users.insert_one(x)
-		return render_template('pages/inscription.html', title="inscription")
-
-	return redirect(url_for('home'))
+        if firstName != "" and lastName != "" and userName != "" and mail != "" and password != "" :
+            x = {
+                "firstname": firstName,
+                "lastname": lastName,
+                "username": userName,
+                "email": mail,
+                "password": password
+            }
+            mongo.db.users.insert_one(x)
+            return redirect(url_for('login'))
+            
+    return render_template('pages/inscription.html', title="inscription")
 
 
 # ---------------------- #
@@ -143,5 +143,5 @@ def http404(error):
 	return render_template('404.html', error=error)
 
 @app.errorhandler(500)
-def http404(error):
-	return render_template('500.html', error=error)
+def http500(error):
+    return render_template('500.html', error=error)
