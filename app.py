@@ -69,17 +69,16 @@ def manage_assets():
 @app.route('/')
 @login_required
 def home():
-	users = mongo.db.users.find();
-	return render_template('pages/home.html', title="Accueil", users=users)
+	return render_template('pages/home.html', title="Accueil")
 
 
 @app.route('/user/<string:username>')
 def profile(username):
-    user = User.findByUsername(username);
-    if user is not None:
-        return render_template('pages/profile.html', title="Profile", user=user)
-    else:
-        return abort(404, "Désolé, cette instagrumeur n'existe pas")
+	user = User.findByUsername(username)
+	if user is not None:
+		return render_template('pages/profile.html', title="Profile", user=user)
+	else:
+		return abort(404, "Désolé, cette instagrumeur n'existe pas")
 
 
 @app.route('/post/<string:id>')
@@ -94,11 +93,9 @@ def login():
 			username = request.form.get('login[username]')
 			password = request.form.get('login[password]')
 			user = User.authenticate(username, password)
-
 			if (user is not None):
 				login_user(user)
-				return redirect(url_for('home'))
-		
+				return redirect(url_for('home'))		
 		return render_template('pages/login.html', title="login")
 	else:
 		return redirect(url_for('home'))
@@ -106,32 +103,32 @@ def login():
 @app.route('/logout')
 @login_required
 def logout():
-    logout_user()
-    return redirect(url_for('login'))
+	logout_user()
+	return redirect(url_for('login'))
 
 @app.route('/inscription', methods=['GET', 'POST'])
 def inscription():
-    users = mongo.db.users.find()
-    
-    if request.form is not None:
-        firstName = request.form.get('inscription[firstName]')
-        lastName = request.form.get('inscription[lastName]')
-        userName = request.form.get('inscription[userName]')
-        mail = request.form.get('inscription[mail]')
-        password = request.form.get('inscription[password]')
+	users = mongo.db.users.find()
+	
+	if request.method == "POST":
+		firstName = request.form.get('inscription[firstName]')
+		lastName = request.form.get('inscription[lastName]')
+		userName = request.form.get('inscription[userName]')
+		mail = request.form.get('inscription[mail]')
+		password = request.form.get('inscription[password]')
 
-        if firstName != "" and lastName != "" and userName != "" and mail != "" and password != "" :
-            x = {
-                "firstname": firstName,
-                "lastname": lastName,
-                "username": userName,
-                "email": mail,
-                "password": password
-            }
-            mongo.db.users.insert_one(x)
-            return redirect(url_for('login'))
-            
-    return render_template('pages/inscription.html', title="inscription")
+		if firstName != "" and lastName != "" and userName != "" and mail != "" and password != "":
+			x = {
+			    "firstname": firstName,
+			    "lastname": lastName,
+			    "username": userName,
+			    "email": mail,
+			    "password": password
+			}
+			mongo.db.users.insert_one(x)
+			return redirect(url_for('login'))
+			
+	return render_template('pages/inscription.html', title="inscription")
 
 
 # ---------------------- #
@@ -144,4 +141,4 @@ def http404(error):
 
 @app.errorhandler(500)
 def http500(error):
-    return render_template('500.html', error=error)
+	return render_template('500.html', error=error)
