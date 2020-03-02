@@ -46,6 +46,18 @@
 
 							<span class="card-title titleCard">InstaGrum'</span>
 
+							{% with messages = get_flashed_messages(category_filter=['login-form--error']) %}
+								{% if messages %}
+									<ul class="validation-error">
+										{% for message in messages %}
+											<li class="validation-error__item {{ category }}">
+												<span class="validation-error__message validation-error__message--centered">{{ message }}</span>
+											</li>
+										{% endfor %}
+									</ul>
+								{% endif %}
+							{% endwith %}
+
 							<div class="input-field textFieldsCard">
 								<input type="text" class="validate" name="login[username]">
 								<label for="identifiant">Identifiant</label>

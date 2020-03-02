@@ -1,4 +1,4 @@
-from flask import Flask, render_template, json, url_for, redirect, request, abort
+from flask import Flask, render_template, json, url_for, redirect, request, abort, flash
 from flask_login import LoginManager, UserMixin, login_required, login_url, logout_user, login_user, current_user
 from flask_pymongo import PyMongo, ObjectId
 
@@ -17,6 +17,9 @@ login_manager.init_app(app)
 # Class
 class User(UserMixin):
 	def __init__(self, user):
+		# if user is not None:
+		# 	for key in user:
+		# 		setattr(self, key, user[key])
 		for key in user:
 			setattr(self, key, user[key])
 
@@ -69,17 +72,17 @@ def manage_assets():
 @app.route('/')
 @login_required
 def home():
-	users = mongo.db.users.find();
-	return render_template('pages/home.html', title="Accueil", users=users)
+	# logout_user()
+	return render_template('pages/home.html', title="Accueil")
 
 
 @app.route('/user/<string:username>')
 def profile(username):
-    user = User.findByUsername(username);
-    if user is not None:
-        return render_template('pages/profile.html', title="Profile", user=user)
-    else:
-        return abort(404, "Désolé, cette instagrumeur n'existe pas")
+	user = User.findByUsername(username);
+	if user is not None:
+		return render_template('pages/profile.html', title="Profile", user=user)
+	else:
+		return abort(404, "Désolé, cette instagrumeur n'existe pas")
 
 
 @app.route('/post/<string:id>')
@@ -98,6 +101,8 @@ def login():
 			if (user is not None):
 				login_user(user)
 				return redirect(url_for('home'))
+			else:
+				flash('Identifiant ou mot de passe non valide', 'login-form--error')
 		
 		return render_template('pages/login.html', title="login")
 	else:
@@ -106,32 +111,43 @@ def login():
 @app.route('/logout')
 @login_required
 def logout():
-    logout_user()
-    return redirect(url_for('login'))
+	logout_user()
+	return redirect(url_for('login'))
 
 @app.route('/inscription', methods=['GET', 'POST'])
 def inscription():
-    users = mongo.db.users.find()
-    
-    if request.form is not None:
-        firstName = request.form.get('inscription[firstName]')
-        lastName = request.form.get('inscription[lastName]')
-        userName = request.form.get('inscription[userName]')
-        mail = request.form.get('inscription[mail]')
-        password = request.form.get('inscription[password]')
+	if request.method == "POST":
+		firstName = request.form.get('inscription[firstName]')
+		lastName = request.form.get('inscription[lastName]')
+		userName = request.form.get('inscription[userName]')
+		mail = request.form.get('inscription[mail]')
+		password = request.form.get('inscription[password]')
 
-        if firstName != "" and lastName != "" and userName != "" and mail != "" and password != "" :
-            x = {
-                "firstname": firstName,
-                "lastname": lastName,
-                "username": userName,
-                "email": mail,
-                "password": password
-            }
-            mongo.db.users.insert_one(x)
-            return redirect(url_for('login'))
-            
-    return render_template('pages/inscription.html', title="inscription")
+		if firstName == "":
+			flash('Vous devez renseignez votre prénom', 'signup-form--error')
+		
+		if lastName == "":
+			flash('Vous devez renseignez votre nom', 'signup-form--error')
+
+		if userName == "":
+			flash('Vous devez renseignez un nom d\'utilsateur', 'signup-form--error')
+
+		if mail == "":
+			flash('Vous devez renseignez une adresse email', 'signup-form--error')
+
+		if password == "":
+			flash('Vous devez renseignez un mot de passe', 'signup-form--error')
+
+		if firstName != "" and lastName != "" and userName != "" and mail != "" and password != "" :
+			mongo.db.users.insert_one({
+				"firstname": firstName,
+				"lastname": lastName,
+				"username": userName,
+				"email": mail,
+				"password": password				
+			})
+			return redirect(url_for('login'))
+	return render_template('pages/inscription.html', title="inscription")
 
 
 # ---------------------- #
@@ -144,4 +160,4 @@ def http404(error):
 
 @app.errorhandler(500)
 def http500(error):
-    return render_template('500.html', error=error)
+	return render_template('500.html', error=error)

@@ -1,0 +1,24 @@
+.validation-error {
+    margin: 25px 0;
+
+    .validation-error__item {
+        margin-bottom:  5px;
+
+        &:last-child {
+            margin-bottom: 0;
+        }
+    }
+
+    .validation-error__message {
+        color:           #ff4848;
+        font-size:       0.9rem;
+        list-style-type: circle;
+
+        &--centered {
+            display:         block;
+            list-style-type: none;
+            text-align:      center;
+            width:           100%;
+        }
+    }
+}
