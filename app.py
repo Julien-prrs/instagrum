@@ -92,7 +92,7 @@ def post(id):
 @app.route('/login', methods=['GET', 'POST'])
 def login():
 	if not current_user.is_authenticated:
-		if request.form is not None:
+		if request.method == "POST":
 			username = request.form.get('login[username]')
 			password = request.form.get('login[password]')
 			user = User.authenticate(username, password)
