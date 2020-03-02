@@ -4,7 +4,7 @@ from flask_pymongo import PyMongo, ObjectId
 
 # App
 app = Flask(__name__, static_folder="static", template_folder="templates")
-app.config["MONGO_URI"] = "mongodb://localhost:27017/instagrum";
+app.config["MONGO_URI"] = "mongodb://localhost:27017/instagrum"
 app.secret_key = b'"<Q\n]\xe6\x03rp\x95\xc8\xa4\xf0\xcb\xd4e'
 
 mongo = PyMongo(app)
@@ -107,30 +107,31 @@ def login():
 @login_required
 def logout():
     logout_user()
+    return redirect(url_for('login'))
 
 @app.route('/inscription', methods=['GET', 'POST'])
 def inscription():
-	users = mongo.db.users.find()
+    users = mongo.db.users.find()
+    
+    if request.form is not None:
+        firstName = request.form.get('inscription[firstName]')
+        lastName = request.form.get('inscription[lastName]')
+        userName = request.form.get('inscription[userName]')
+        mail = request.form.get('inscription[mail]')
+        password = request.form.get('inscription[password]')
 
-	if request.form is not None:
-		firstName = request.form.get('inscription[firstName]')
-		lastName = request.form.get('inscription[lastName]')
-		userName = request.form.get('inscription[userName]')
-		mail = request.form.get('inscription[mail]')
-		password = request.form.get('inscription[password]')
-		if firstName != "" and lastName != "" and userName != "" and mail != "" and password != "" :
-			x = {
-				"firstname": firstName,
-				"lastname": lastName,
-				"username": userName,
-				"email": mail,
-				"password": password
-			}
-			print(x)
-			mongo.db.users.insert_one(x)
-		return render_template('pages/inscription.html', title="inscription")
-
-	return redirect(url_for('home'))
+        if firstName != "" and lastName != "" and userName != "" and mail != "" and password != "" :
+            x = {
+                "firstname": firstName,
+                "lastname": lastName,
+                "username": userName,
+                "email": mail,
+                "password": password
+            }
+            mongo.db.users.insert_one(x)
+            return redirect(url_for('login'))
+            
+    return render_template('pages/inscription.html', title="inscription")
 
 
 # ---------------------- #
