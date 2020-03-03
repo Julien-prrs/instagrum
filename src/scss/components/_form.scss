@@ -22,3 +22,28 @@
         }
     }
 }
+
+.validation-success {
+    margin: 25px 0;
+
+    .validation-success__item {
+        margin-bottom:  5px;
+
+        &:last-child {
+            margin-bottom: 0;
+        }
+    }
+
+    .validation-success__message {
+        color:           #3ba5ec;
+        font-size:       0.9rem;
+        list-style-type: circle;
+
+        &--centered {
+            display:         block;
+            list-style-type: none;
+            text-align:      center;
+            width:           100%;
+        }
+    }
+}
