@@ -121,6 +121,11 @@ def inscription():
 		mail = request.form.get('inscription[mail]')
 		password = request.form.get('inscription[password]')
 
+		for res in mongo.db.users.find( {"$or": [ {"username": userName}, {"email": mail} ] }):
+			if res is not None: 
+				flash("Nom d'utilisateur et / ou mail déjà utilisé", 'signup-form--error')
+				return render_template('pages/inscription.html', title="inscription")
+
 		if firstName == "":
 			flash('Vous devez renseignez votre prénom', 'signup-form--error')
 		
