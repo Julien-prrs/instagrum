@@ -43,23 +43,11 @@
                                     </div>
                                 </div>
                                 {% endfor %}
-                            {% endif %}
-
-                            <!-- {% for i in range(8) %}
-                                <div class="col-lg-4" style="padding: 10px;">
-                                    <div class="card" style="margin: 0;">
-                                        <a href="{{ url_for('post', id="dlfjdogjoetdger") }}" style="display: block;" class="card-image">
-                                            <img src="https://via.placeholder.com/540">
-                                        </a>
-                                        <div class="card-content">
-                                            <div class="row" style="margin-bottom: 0;">
-                                                <span style="cursor: pointer; margin-right: 15px;"><i class="material-icons left" style="margin-right: 5px">favorite_border</i>54</span>
-                                                <span style="cursor: pointer; margin-right: 15px;"><i class="material-icons left" style="margin-right: 5px">chat_bubble_outline</i>2</span>
-                                            </div>
-                                        </div>
-                                    </div>
+                            {% else %}
+                                <div style="width: 440px; margin: 50px auto">
+                                    <p style="text-align:center; font-style: italic; color: #b4b4b4">Cette instagrumeur n'a pas encore publié de photo</p>
                                 </div>
-                            {% endfor %} -->
+                            {% endif %}
 
                         </div>
                     </div>
