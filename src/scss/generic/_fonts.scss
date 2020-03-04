@@ -1,10 +1,7 @@
 @font-face {
-	font-family: 'lato';
-	src: url('#{$path_font}/lato/Lato-Black.eot');
-	src: url('#{$path_font}/lato/Lato-Black.eot') format('embedded-opentype'),
-        url('#{$path_font}/lato/Lato-Black.woff') format('woff'),
-        url('#{$path_font}/lato/Lato-Black.ttf') format('truetype'),
-        url('#{$path_font}/lato/Lato-Black.svg') format('svg');
+	font-family: 'blackbird';
+	src: url('#{$path_font}/Blackbird.woff') format('woff'),
+        url('#{$path_font}/Blackbird.ttf') format('truetype');
     font-weight:  700;
     font-display: swap;
     font-style:   normal;

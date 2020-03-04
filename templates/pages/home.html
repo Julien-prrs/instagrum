@@ -7,21 +7,25 @@
                     <div class="timeline col-lg-10">
                         <div class="row">
                             <div class="col-lg-8">
-                                {% for i in range(8) %}
-                                    <div style="padding: 10px;">
-                                        <div class="card" style="margin: 0;">
-                                            <a href="{{ url_for('post', id="dlfjdogjoetdger") }}" style="display: block;" class="card-image">
-                                                <img src="https://via.placeholder.com/540">
-                                            </a>
-                                            <div class="card-content">
-                                                <div class="row" style="margin-bottom: 0;">
-                                                    <span style="cursor: pointer; margin-right: 15px;"><i class="material-icons left" style="margin-right: 5px">favorite_border</i>54</span>
-                                                    <span style="cursor: pointer; margin-right: 15px;"><i class="material-icons left" style="margin-right: 5px">chat_bubble_outline</i>2</span>
+
+                                {% if homeImg %}
+                                    {% for res in homeImg %}
+                                        <div style="padding: 10px;">
+                                            <div class="card" style="margin: 0;">
+                                                <a href="{{ url_for('post', id=res['profile_image_name']) }}" style="display: block; height:500px;" class="card-image">
+                                                    <img src="{{url_for('file', filename=res['profile_image_name'])}}" style="width: 100%; height: 100%; object-fit: cover;">
+                                                </a>
+                                                <div class="card-content">
+                                                    <div class="row" style="margin-bottom: 0;">
+                                                        <span style="cursor: pointer; margin-right: 15px;"><i class="material-icons left" style="margin-right: 5px">favorite_border</i>54</span>
+                                                        <span style="cursor: pointer; margin-right: 15px;"><i class="material-icons left" style="margin-right: 5px">chat_bubble_outline</i>2</span>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-                                {% endfor %}
+                                    {% endfor %}
+                                {% endif %}
+
                             </div>
                             <div class="col-lg-4" style="padding: 5px 0 0 30px">
                                 <div class="card" style="height: 380px;">
