@@ -1,10 +1,11 @@
-from flask import Flask, render_template, json, url_for, redirect, request, abort, flash
+from flask import Flask, render_template, json, url_for, redirect, request, abort, flash, jsonify
 from flask_login import LoginManager, UserMixin, login_required, login_url, logout_user, login_user, current_user
 from flask_pymongo import PyMongo, ObjectId
 from flask_mail import Mail, Message
 from passlib.hash import argon2
 from datetime import datetime
 import secrets
+from bson.json_util import dumps
 
 # App
 app = Flask(__name__, static_folder="static", template_folder="templates")
@@ -111,6 +112,17 @@ def importImage():
 def file(filename):
 	return mongo.send_file(filename)
 
+@app.route('/search', methods=['GET', 'POST'])
+def search():
+	if request.args.get('q') is not None:
+		search = request.args.get('q')
+		users = mongo.db.users.find({ "$or":[
+			{"username": {"$regex": ".*"+search+".*"}},
+			{"firstname": {"$regex": ".*"+search+".*"}},
+			{"lastname": {"$regex": ".*"+search+".*"}}
+		]}, { "username": 1, "firstname": 1, "lastname": 1 })
+		return dumps(users)
+	return render_template('pages/search.html')
 
 @app.route('/post/<string:id>')
 def post(id):
