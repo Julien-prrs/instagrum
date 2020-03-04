@@ -78,7 +78,10 @@ def manage_assets():
 @app.route('/')
 @login_required
 def home():
-	return render_template('pages/home.html', title="Accueil")
+	homeImg=[]
+	for res in mongo.db.images.find():
+		homeImg.append(res)
+	return render_template('pages/home.html', title="Accueil", homeImg=homeImg)
 
 
 @app.route('/user/<string:username>')
