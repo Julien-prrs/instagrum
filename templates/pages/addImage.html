@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block content %}
+    <div class="view view--addImage" data-namespace="addImage">
+        <main>
+            <div class="container">
+                <div class="row center-xs">
+                    <div class="timeline col-lg-10">
+                        <div class="row">
+                            <div class="col-lg-8">
+                                <form method="POST" action="/importImage" enctype="multipart/form-data">
+                                    <input type="text" name="username" value="{{user.username}}" style="display: none;"/>
+                                    <input type="file" name="profile_image"/>
+                                    <input type="submit"/>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+{% endblock %}

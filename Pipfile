@@ -11,6 +11,9 @@ python-dotenv = "*"
 flask-pymongo = "*"
 simplejson = "*"
 flask-login = "*"
+passlib = "*"
+argon2-cffi = "*"
+flask-mail = "*"
 
 [requires]
 python_version = "3.6"

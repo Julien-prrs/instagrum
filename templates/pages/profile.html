@@ -27,7 +27,25 @@
                     <div class="profile-grid">
                         <div class="row profile-grid__items">
 
-                            {% for i in range(8) %}
+                            {% if userImg %}
+                                {% for res in userImg %}
+                                <div class="col-lg-4" style="padding: 10px;">
+                                    <div class="card" style="margin: 0;">
+                                        <a href="{{ url_for('post', id=res['profile_image_name']) }}" style="display: block; height: 250px;" class="card-image">
+                                            <img src="{{url_for('file', filename=res['profile_image_name'])}}" style="width: 100%; height: 100%; object-fit: cover;">
+                                        </a>
+                                        <div class="card-content">
+                                            <div class="row" style="margin-bottom: 0;">
+                                                <span style="cursor: pointer; margin-right: 15px;"><i class="material-icons left" style="margin-right: 5px">favorite_border</i>54</span>
+                                                <span style="cursor: pointer; margin-right: 15px;"><i class="material-icons left" style="margin-right: 5px">chat_bubble_outline</i>2</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                {% endfor %}
+                            {% endif %}
+
+                            <!-- {% for i in range(8) %}
                                 <div class="col-lg-4" style="padding: 10px;">
                                     <div class="card" style="margin: 0;">
                                         <a href="{{ url_for('post', id="dlfjdogjoetdger") }}" style="display: block;" class="card-image">
@@ -41,7 +59,7 @@
                                         </div>
                                     </div>
                                 </div>
-                            {% endfor %}
+                            {% endfor %} -->
 
                         </div>
                     </div>
