@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block content %}
+
+<main class="view view--search" data-namespace="search">
+    <div class="container">
+        <div class="row center-xs">
+            <div class="col-lg-12">
+
+                <div class="search">
+                    <div class="search__form input-field">
+                        <i class="material-icons prefix">search</i>
+                        <input type="text" id="autocomplete-input" class="js-search-input">
+                        <label for="autocomplete-input">Rechercher un instagrumeur</label>
+                    </div>
+                    <div class="search__results js-search-results">
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</main>
+
+{% endblock %}

@@ -1,7 +1,9 @@
 import Home from './home'
+import Search from './search'
 
 const views = [
-    Home
+    Home,
+    Search
 ]
 
 export default views
