@@ -81,21 +81,22 @@ def manage_assets():
 def home():
 	homeImg=[]
 	for res in mongo.db.images.find():
-		homeImg.append(res)
+		homeImg.insert(0, res)
 	return render_template('pages/home.html', title="Accueil", homeImg=homeImg)
-
 
 @app.route('/user/<string:username>')
 def profile(username):
-	userImg= []
-	for res in mongo.db.images.find({'username': username}, {'profile_image_name': 1, '_id': 0}):
-		userImg.append(res)
+	userImg = []
+	profileImg = []
+	for res in mongo.db.images.find({'username': username}, {'image_name': 1, '_id': 0}):
+		userImg.insert(0,res)
 	user = User.findByUsername(username)
+	for res in mongo.db.users.find({"username": username}):
+		profileImg.insert(0, res)
 	if user is not None:
-		return render_template('pages/profile.html', title="Profile", user=user, userImg=userImg)
+		return render_template('pages/profile.html', title="Profile", user=user, userImg=userImg, profileImg= profileImg)
 	else:
 		return abort(404, "Désolé, cette instagrumeur n'existe pas")
-
 
 @app.route('/addImage/<string:username>')
 def addImage(username):
@@ -104,12 +105,27 @@ def addImage(username):
 
 @app.route('/importImage', methods=["POST"])
 def importImage():
-	if "profile_image" in request.files:
-		profile_image = request.files["profile_image"]		
-		if profile_image.filename != "":
-			mongo.save_file(profile_image.filename, profile_image)
-			mongo.db.images.insert({"username": request.form.get("username"), "profile_image_name": profile_image.filename, "date": datetime.now().strftime('%d/%m/%Y %H:%M:%S')})
-	return redirect(url_for('home'))
+	if "image" in request.files:
+		image = request.files["image"]		
+		if image.filename != "":
+			mongo.save_file(image.filename, image)
+			mongo.db.images.insert({"username": request.form.get("username"), "image_name": image.filename, "date": datetime.now().strftime('%d/%m/%Y %H:%M:%S')})
+	return redirect(url_for('profile', username=current_user.username))
+
+@app.route('/importImageProfile', methods=["POST"])
+def importImageProfile():
+	if "image" in request.files:
+		image = request.files["image"]		
+		if image.filename != "":
+			mongo.save_file(image.filename, image)
+			mongo.db.users.update({"username": current_user.username}, {"$set": {"profile_image": image.filename}})
+	return redirect(url_for('profile', username=current_user.username))
+
+@app.route('/deleteImage/<filename>', methods=["POST"])
+def deleteImage(filename):
+	if filename != "":
+		mongo.db.images.delete_one({"image_name": filename})
+	return redirect(url_for('profile', username=current_user.username))
 
 @app.route('/file/<filename>')
 def file(filename):
@@ -120,17 +136,16 @@ def search():
 	if request.args.get('q') is not None:
 		search = request.args.get('q')
 		users = mongo.db.users.find({ "$or":[
-			{"username": {"$regex": ".*"+search+".*"}},
-			{"firstname": {"$regex": ".*"+search+".*"}},
-			{"lastname": {"$regex": ".*"+search+".*"}}
-		]}, { "username": 1, "firstname": 1, "lastname": 1 })
+			{"username": {"$regex": ".*"+search+".*", '$options' : 'i'}},
+			{"firstname": {"$regex": ".*"+search+".*", '$options' : 'i'}},
+			{"lastname": {"$regex": ".*"+search+".*", '$options' : 'i'}}
+		]}, { "username": 1, "firstname": 1, "lastname": 1, "profile_image": 1 })
 		return dumps(users)
 	return render_template('pages/search.html')
 
 @app.route('/post/<string:id>')
 def post(id):
 	return render_template('pages/post.html', title="post", image=id)
-
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -206,7 +221,6 @@ def resetPassword(token):
 	else:
 		return redirect(url_for('home'))
 
-
 @app.route('/inscription', methods=['GET', 'POST'])
 def inscription():
 	if not current_user.is_authenticated:
@@ -216,6 +230,7 @@ def inscription():
 			userName = request.form.get('inscription[userName]')
 			mail = request.form.get('inscription[mail]')
 			password = request.form.get('inscription[password]')
+			profile_image = ""
 
 			for res in mongo.db.users.find( {"$or": [ {"username": userName}, {"email": mail} ] }):
 				if res is not None: 
@@ -243,7 +258,8 @@ def inscription():
 					"lastname": lastName,
 					"username": userName,
 					"email": mail,
-					"password": argon2.hash(password)				
+					"password": argon2.hash(password),
+					"profile_image": ""
 				})
 				return redirect(url_for('login'))
 		return render_template('pages/inscription.html', title="inscription")

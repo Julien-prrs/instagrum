@@ -10,7 +10,10 @@
                     <img src="{{url_for('file', filename=image)}}">
                 </div>
                 <div class="post__content">
-                    <h3>content</h3>
+                    <h1>Coucou</h1>
+                    <form method="POST" action="/deleteImage/{{image}}" enctype="multipart/form-data">
+                        <button class="btn" type="submit">Supprimer cette photo</button>
+                    </form>
                 </div>
             </div>
 

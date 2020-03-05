@@ -1,9 +1,11 @@
 import Home from './home'
+import Profile from './profile'
 import Search from './search'
 
 const views = [
     Home,
-    Search
+    Search,
+    Profile
 ]
 
 export default views

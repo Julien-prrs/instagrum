@@ -27,15 +27,15 @@ export default class {
             if (xhr.status >= 200 && xhr.status < 400) {
                 const data = JSON.parse(xhr.response);
                 let html = data.map(user => `
-                    <div class="card-user">
+                    <a href="/user/${user.username}" class="card-user">
                         <div class="card-user__pp">
-                            <img src="">
+                            <img src="/file/${user.profile_image}">
                         </div>
                         <div class="card-user__meta">
                             <h5>${user.firstname} ${user.lastname}</h5>
                             <span>${user.username}</span>
                         </div>
-                    </div>
+                    </a>
                 `);
 
                 if (html.length < 1) {
