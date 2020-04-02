@@ -35,3 +35,15 @@
         margin-top: 15px;
     }
 }
+
+.profile-grid__items {
+    .card-image {
+        display: block;
+        height:  70vw;
+
+        @include md { height:   360px }
+        @include lg { height:   250px }
+        @include xl { height:  280px }
+        @include xxl { height:  360px }
+    }
+}
