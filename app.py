@@ -109,7 +109,7 @@ def importImage():
 		image = request.files["image"]		
 		if image.filename != "":
 			mongo.save_file(image.filename, image)
-			mongo.db.images.insert({"username": request.form.get("username"), "image_name": image.filename, "date": datetime.now().strftime('%d/%m/%Y %H:%M:%S')})
+			mongo.db.images.insert({"username": request.form.get("username"), "image_name": image.filename, "date": datetime.now().strftime('%d/%m/%Y %H:%M:%S'), "title": request.form.get("image_title"), "description": request.form.get("image_description")})
 	return redirect(url_for('profile', username=current_user.username))
 
 @app.route('/importImageProfile', methods=["POST"])
@@ -145,7 +145,10 @@ def search():
 
 @app.route('/post/<string:id>')
 def post(id):
-	return render_template('pages/post.html', title="post", image=id)
+	full_img = []
+	for res in mongo.db.images.find({ "image_name":id }):
+		full_img.insert(0,res)
+	return render_template('pages/post.html', title="post", image=id, full_img=full_img[0])
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():

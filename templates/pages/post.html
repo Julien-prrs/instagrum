@@ -10,10 +10,17 @@
                     <img src="{{url_for('file', filename=image)}}">
                 </div>
                 <div class="post__content">
-                    <h1>Coucou</h1>
-                    <form method="POST" action="/deleteImage/{{image}}" enctype="multipart/form-data">
-                        <button class="btn" type="submit">Supprimer cette photo</button>
-                    </form>
+                    <div class="card" style="padding: 1% 10% 10% 10%;">  
+                        {% if full_img.title %}
+                            <h1>{{ full_img.title }}</h1>
+                            <span>{{ full_img.description }}</span><br/><br/>
+                        {% else %}
+                            <h1>Image de {{full_img.username}}</h1>
+                        {% endif %}                  
+                        <form method="POST" action="/deleteImage/{{image}}" enctype="multipart/form-data">
+                            <button class="btn" type="submit">Supprimer cette photo</button>
+                        </form>
+                    </div>
                 </div>
             </div>
 
