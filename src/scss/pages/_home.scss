@@ -1,0 +1,16 @@
+.timeline {
+    max-width: 540px;
+    padding:   25px 0 0 0;
+    
+    @include md { padding: 60px 0 30px 0 }
+
+    .card {
+        .card-image {
+            display: block;
+            height:  75vw;
+
+            @include sm { height: 400px }
+            @include md { height: 500px }
+        }
+    }
+}
