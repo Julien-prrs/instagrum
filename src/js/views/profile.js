@@ -3,14 +3,13 @@ export default class {
     static namespace = 'profile'
 
     constructor() {
-        this.input = document.getElementById("profileImgInput")
-        this.submitForm()
+        this.profilePictureManager();
     }
 
-    submitForm() {
-        this.input.addEventListener('change', () => {
-            document.getElementById("formProfileImg").submit();
-        })
-    }
+    profilePictureManager() {
+        const form = document.getElementById("formProfileImg");
+        const input = document.getElementById('profileImgInput');
 
+        input.addEventListener('change', () => form.submit())
+    }
 }

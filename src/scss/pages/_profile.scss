@@ -36,6 +36,17 @@
     }
 }
 
+.profile-metadata {
+    align-items:    center;
+    display:        flex;
+    flex-direction: row;
+    flex-wrap:      wrap;
+
+    .profile-meta {
+        margin-right: 15px;
+    }
+}
+
 .profile-grid__items {
     .card-image {
         display: block;

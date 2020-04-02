@@ -9,11 +9,13 @@
                     <div class="profile-banner">
                         <div class="row middle-xs">
                             <div class="profile-banner__pic col-lg-3">
-                                {% for res in profileImg %}
-                                    <label for="profileImgInput">
-                                        <img src="{{url_for('file', filename=res.profile_image)}}" alt="Photo de profile" style="cursor: pointer;">
+                                {% if user._id != current_user._id %}
+                                    <img src="{{ url_for('file', filename=user.profile_image) }}" alt="Photo de profile">
+                                {% else %}
+                                    <label for="profileImgInput" style="cursor: pointer;">
+                                        <img src="{{ url_for('file', filename=user.profile_image) }}" alt="Photo de profile">
                                     </label>
-                                {% endfor %}
+                                {% endif %}
                             </div>
                             <div class="profile-banner__content col-lg-6">
                                 <h3>{{ user.firstname ~ ' ' ~ user.lastname }} ({{ user.username }})</h3>
@@ -26,10 +28,32 @@
                                     <input type="file" name="image" id="profileImgInput" style="display: none;"/>
                                 </form>
 
-                                <button class="btn-small wave-light waves-effect">
-                                    <i class="material-icons right">add_circle_outline</i>
-                                    Suivre
-                                </button>
+                                <div class="profile-metadata">
+                                    <div class="profile-meta">
+                                        <span class="profile-meta__value">{{ user.followersCount }}</span>
+                                        <span class="profile-meta__label">Abonné(s)</span>
+                                    </div>
+                                    <div class="profile-meta">
+                                        <span class="profile-meta__value">{{ user.followeesCount }}</span>
+                                        <span class="profile-meta__label">Abonnement(s)</span>
+                                    </div>
+                                </div>
+
+                                <div class="profile-action">
+                                    {% if user._id != current_user._id %}
+                                        {% if isFollowed %}
+                                            <button class="profile__action profile__action--unfollow btn-small wave-light waves-effect">
+                                                <i class="material-icons right">check</i>
+                                                Ne plus suivre
+                                            </button>
+                                        {% else %}
+                                            <button class="profile__action profile__action--follow btn-small wave-light waves-effect">
+                                                <i class="material-icons right">add_circle_outline</i>
+                                                Suivre
+                                            </button>
+                                        {% endif %}
+                                    {% endif %}
+                                </div>
                             </div>
                         </div>
                     </div>
