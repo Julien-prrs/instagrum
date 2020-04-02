@@ -80,7 +80,7 @@ def manage_assets():
 @login_required
 def home():
 	homeImg=[]
-	for res in mongo.db.images.find():
+	for res in mongo.db.images.find().limit(6):
 		homeImg.insert(0, res)
 	return render_template('pages/home.html', title="Accueil", homeImg=homeImg)
 
@@ -264,6 +264,18 @@ def inscription():
 				return redirect(url_for('login'))
 		return render_template('pages/inscription.html', title="inscription")
 	return redirect(url_for('home'))
+
+@app.route('/api', methods=['GET', 'POST'])
+def api():
+	return '<h1>API</h1>'
+
+@app.route('/api/feed', methods=['GET'])
+def apiFeed():
+	if request.args.get('offset') is not None:
+		offset = int(request.args.get('offset'))
+		images = mongo.db.images.find().limit(6).skip(offset)
+		return dumps(images)
+	return abort(500, 'Missing offset param')
 
 
 

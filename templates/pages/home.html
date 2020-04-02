@@ -4,9 +4,9 @@
         <main>
             <div class="container">
                 <div class="row center-xs">
-                    <div class="timeline col-lg-8">
+                    <div class="timeline col-lg-6">
                         <div class="row">
-                            <div class="col-lg-12">
+                            <div class="col-lg-12 js-feed">
 
                                 {% if homeImg %}
                                     {% for res in homeImg %}
@@ -31,6 +31,9 @@
                                 {% endif %}
 
                             </div>
+                        </div>
+                        <div class="row">
+                            <div class="spinner js-spinner"></div>
                         </div>
                     </div>
                 </div>

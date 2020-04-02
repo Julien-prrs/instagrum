@@ -1,0 +1,16 @@
+.spinner {
+    border:           solid 3px #e7e7e7;
+    border-radius:    50%;
+    border-top-color: #ee6e73;
+    content:          '';
+    display:          none;
+    height:           40px;
+    margin:           25px auto 0 auto;
+    transform:        translateX(-50%);
+    width:            40px;
+
+    &.is-visible {
+        animation: o-spin 1.2s cubic-bezier(0.79, 0.38, 0.28, 0.76) infinite;
+        display:   block;
+    }
+}
