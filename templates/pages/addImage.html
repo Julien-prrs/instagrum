@@ -1,22 +1,32 @@
 {% extends "base.html" %}
 {% block content %}
-    <div class="view view--addImage" data-namespace="addImage">
-        <main>
-            <div class="container" style="margin-top: 10%;">
-                <div class="row center-xs">
-                    <div class="timeline col-lg-10">
-                        <div class="row">
-                            <div class="col-lg-8">
-                                <form method="POST" action="/importImage" enctype="multipart/form-data">
-                                    <input type="text" name="username" value="{{user.username}}" style="display: none;"/>
-                                    <input type="file" name="image"/><br/><br/>
-                                    <button class="btn" type="submit">Ajouter une photo</button>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </main>
-    </div>
+	<div class="view view--addImage" data-namespace="addImage">
+		<main>
+			<div class="container">
+				<div class="row center-xs">
+					<div class="row">
+						<form method="POST" action="/importImage" enctype="multipart/form-data">
+
+							<h1>Déposer une image</h1>
+
+							<div class="card" style="padding: 10%; margin: 0 auto; display: block;">                                    
+								<input type="text" name="username" value="{{user.username}}" style="display: none;"/>
+								<input type="file" name="image"/><br/>
+								<div class="input-field">
+									<label for="image_title">Titre</label>
+									<input type="text" name="image_title">
+								</div>
+								<div class="input-field">
+									<label for="image_description">Description</label>
+									<input type="text" name="image_description">
+								</div><br/>
+								<button class="btn" type="submit">Ajouter une photo</button>
+							</div>
+
+						</form>
+					</div>
+				</div>
+			</div>
+		</main>
+	</div>
 {% endblock %}
