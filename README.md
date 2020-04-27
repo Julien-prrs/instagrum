@@ -1,5 +1,5 @@
 ## En cours
-- [ ] Profile --> Bouton follow/unfollow (Julien)
+> Empty
 
 ## A faire
 - [ ] Profile --> lazyload des posts au scroll

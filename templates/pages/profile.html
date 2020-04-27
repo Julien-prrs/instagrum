@@ -42,12 +42,12 @@
                                 <div class="profile-action">
                                     {% if user._id != current_user._id %}
                                         {% if isFollowed %}
-                                            <button class="profile__action profile__action--unfollow btn-small wave-light waves-effect">
+                                            <button data-user="{{ user.username }}" class="profile__action profile__action--unfollow btn-small wave-light waves-effect js-action-unfollow">
                                                 <i class="material-icons right">check</i>
                                                 Ne plus suivre
                                             </button>
                                         {% else %}
-                                            <button class="profile__action profile__action--follow btn-small wave-light waves-effect">
+                                            <button data-user="{{ user.username }}" class="profile__action profile__action--follow btn-small wave-light waves-effect js-action-follow">
                                                 <i class="material-icons right">add_circle_outline</i>
                                                 Suivre
                                             </button>
