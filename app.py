@@ -46,8 +46,8 @@ class User(UserMixin):
 	def findByUsername(username:str):
 		user = mongo.db.users.find_one({ "username": username })
 		if user is not None:
-			user['followersCount'] = mongo.db.follow.count({ "followee": user['_id'] });
-			user['followeesCount'] = mongo.db.follow.count({"follower": user['_id']})
+			user['followersCount'] = mongo.db.follow.count({ "followee": user['_id'], "end": None });
+			user['followeesCount'] = mongo.db.follow.count({ "follower": user['_id'], "end": None });
 			return User(user)
 		return None
 		
@@ -87,7 +87,7 @@ def home():
 def profile(username):
 	user = User.findByUsername(username)
 	if user is not None:
-		isFollowed = mongo.db.follow.find_one({ "follower": current_user._id, "followee": user._id })
+		isFollowed = mongo.db.follow.find_one({ "follower": current_user._id, "followee": user._id, "end": None })
 		userImg = mongo.db.images.find({ "username": username }, { "image_name": 1, "_id": 0 })
 		return render_template('pages/profile.html', title="Profile", user=user, userImg=userImg, isFollowed=isFollowed)
 	return abort(404, "Désolé, cette instagrumeur n'existe pas")
@@ -270,9 +270,29 @@ def apiFeed():
 		return dumps(images)
 	return abort(500, 'Missing offset param')
 
-@app.route('/api/users/<int:id>/follow', methods=['GET'])
-def apiUserFollow(id):
-	return None;
+@app.route('/follow', methods=['POST'])
+def apiFollowUser():
+	if request.is_json:
+		data = request.get_json();
+		user = mongo.db.users.find_one({ "username": data['user'] })
+		if user is not None:
+			mongo.db.follow.insert_one({
+				"follower": current_user._id,
+				"followee": user['_id'],
+				"start": datetime.now()
+			})
+			return dumps({ 'code': 200, 'status': 'success' })
+	return dumps({ 'code': 200, 'status': 'error' })
+
+@app.route('/unfollow', methods=['POST'])
+def apiUnfollowUser():
+	if request.is_json:
+		data = request.get_json();
+		user = mongo.db.users.find_one({ "username": data['user'] })
+		if user is not None:
+			mongo.db.follow.update_one({"follower": current_user._id, "followee": user['_id'], "end": None}, { "$set": {"end": datetime.now() }})
+			return dumps({ 'code': 200, 'status': 'success' })
+	return dumps({ 'code': 200, 'status': 'error' })
 
 
 # ---------------------- #
