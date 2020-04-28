@@ -16,10 +16,12 @@
                             <span>{{ full_img.description }}</span><br/><br/>
                         {% else %}
                             <h1>Image de {{full_img.username}}</h1>
-                        {% endif %}                  
+                        {% endif %}
+                        {% if full_img.username == user.username or user.isAdmin == true %}
                         <form method="POST" action="/deleteImage/{{image}}" enctype="multipart/form-data">
                             <button class="btn" type="submit">Supprimer cette photo</button>
                         </form>
+                        {% endif %}
                     </div>
                 </div>
             </div>

@@ -148,7 +148,7 @@ def post(id):
 	full_img = []
 	for res in mongo.db.images.find({ "image_name":id }):
 		full_img.insert(0,res)
-	return render_template('pages/post.html', title="post", image=id, full_img=full_img[0])
+	return render_template('pages/post.html', title="post", image=id, full_img=full_img[0], user=current_user)
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -233,7 +233,6 @@ def inscription():
 			userName = request.form.get('inscription[userName]')
 			mail = request.form.get('inscription[mail]')
 			password = request.form.get('inscription[password]')
-			profile_image = ""
 
 			for res in mongo.db.users.find( {"$or": [ {"username": userName}, {"email": mail} ] }):
 				if res is not None: 
@@ -262,7 +261,8 @@ def inscription():
 					"username": userName,
 					"email": mail,
 					"password": argon2.hash(password),
-					"profile_image": ""
+					"profile_image": "",
+					"isAdmin": false
 				})
 				return redirect(url_for('login'))
 		return render_template('pages/inscription.html', title="inscription")
