@@ -5,6 +5,11 @@
     </footer>
 
     <!-- JS -->
+    <script>
+      window.APP = window.APP || {}
+      APP.API_URL = "/api"
+    </script>
+
     {% if assets['vendor.js'] is defined %}
       <script src="{{ url_for('static', filename=assets['vendor.js']) }}" defer></script>
       <script src="{{ url_for('static', filename=assets['app.js']) }}" defer></script>

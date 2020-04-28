@@ -29,24 +29,25 @@ class User(UserMixin):
 	def get_id(self):
 		return str(self._id)
 
+	def isTokenValid(createdAt):
+		now = datetime.datetime.now()
+		return (now - datetime.timedelta(hours=24) <= createdAt <= now)
+		
+	def authenticate(username:str, password:str):
+		user = mongo.db.users.find_one({ "$or": [{"username": username},{"email": username}] })
+		if user is not None and argon2.verify(password, user['password']):
+			return User(user)
+		return None
+
 	def findById(_id:str):
 		user = mongo.db.users.find_one({ "_id": ObjectId(_id) })
 		return User(user)
 
-	def isTokenValid(createdAt):
-		now = datetime.datetime.now()
-		return (now - datetime.timedelta(hours=24) <= createdAt <= now)
-
 	def findByUsername(username:str):
 		user = mongo.db.users.find_one({ "username": username })
 		if user is not None:
-			return User(user)
-		else:
-			return None
-
-	def authenticate(username:str, password:str):
-		user = mongo.db.users.find_one({ "$or": [{"username": username},{"email": username}] })
-		if user is not None and argon2.verify(password, user['password']):
+			user['followersCount'] = mongo.db.follow.count({ "followee": user['_id'] });
+			user['followeesCount'] = mongo.db.follow.count({"follower": user['_id']})
 			return User(user)
 		return None
 		
@@ -79,24 +80,17 @@ def manage_assets():
 @app.route('/')
 @login_required
 def home():
-	homeImg=[]
-	for res in mongo.db.images.find():
-		homeImg.insert(0, res)
+	homeImg = mongo.db.images.find().limit(6)
 	return render_template('pages/home.html', title="Accueil", homeImg=homeImg)
 
 @app.route('/user/<string:username>')
 def profile(username):
-	userImg = []
-	profileImg = []
-	for res in mongo.db.images.find({'username': username}, {'image_name': 1, '_id': 0}):
-		userImg.insert(0,res)
 	user = User.findByUsername(username)
-	for res in mongo.db.users.find({"username": username}):
-		profileImg.insert(0, res)
 	if user is not None:
-		return render_template('pages/profile.html', title="Profile", user=user, userImg=userImg, profileImg= profileImg)
-	else:
-		return abort(404, "Désolé, cette instagrumeur n'existe pas")
+		isFollowed = mongo.db.follow.find_one({ "follower": current_user._id, "followee": user._id })
+		userImg = mongo.db.images.find({ "username": username }, { "image_name": 1, "_id": 0 })
+		return render_template('pages/profile.html', title="Profile", user=user, userImg=userImg, isFollowed=isFollowed)
+	return abort(404, "Désolé, cette instagrumeur n'existe pas")
 
 @app.route('/addImage/<string:username>')
 def addImage(username):
@@ -268,6 +262,17 @@ def inscription():
 		return render_template('pages/inscription.html', title="inscription")
 	return redirect(url_for('home'))
 
+@app.route('/api/feed', methods=['GET'])
+def apiFeed():
+	if request.args.get('offset') is not None:
+		offset = int(request.args.get('offset'))
+		images = mongo.db.images.find().limit(6).skip(offset)
+		return dumps(images)
+	return abort(500, 'Missing offset param')
+
+@app.route('/api/users/<int:id>/follow', methods=['GET'])
+def apiUserFollow(id):
+	return None;
 
 
 # ---------------------- #
