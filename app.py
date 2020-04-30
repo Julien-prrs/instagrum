@@ -80,7 +80,13 @@ def manage_assets():
 @app.route('/')
 @login_required
 def home():
-	homeImg = mongo.db.images.find().limit(6)
+	followees = []
+	homeImg = []
+	for res in mongo.db.follow.find({"follower": current_user._id, "end": None}, {"followee": 1}):
+		followees.append(ObjectId(res["followee"]))
+	for res2 in followees:
+		for res3 in mongo.db.images.find({"user_id": res2}):
+			homeImg.insert(0, res3)
 	return render_template('pages/home.html', title="Accueil", homeImg=homeImg)
 
 @app.route('/user/<string:username>')
@@ -103,7 +109,7 @@ def importImage():
 		image = request.files["image"]		
 		if image.filename != "":
 			mongo.save_file(image.filename, image)
-			mongo.db.images.insert({"username": request.form.get("username"), "image_name": image.filename, "date": datetime.now().strftime('%d/%m/%Y %H:%M:%S'), "title": request.form.get("image_title"), "description": request.form.get("image_description")})
+			mongo.db.images.insert({"username": request.form.get("username"),"user_id": current_user._id, "image_name": image.filename, "date": datetime.now().strftime('%d/%m/%Y %H:%M:%S'), "title": request.form.get("image_title"), "description": request.form.get("image_description")})
 	return redirect(url_for('profile', username=current_user.username))
 
 @app.route('/importImageProfile', methods=["POST"])
@@ -256,7 +262,7 @@ def inscription():
 					"email": mail,
 					"password": argon2.hash(password),
 					"profile_image": "",
-					"isAdmin": false
+					"isAdmin": False
 				})
 				return redirect(url_for('login'))
 		return render_template('pages/inscription.html', title="inscription")
