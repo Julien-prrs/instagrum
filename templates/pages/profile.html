@@ -10,10 +10,18 @@
                         <div class="row middle-xs">
                             <div class="profile-banner__pic col-lg-3">
                                 {% if user._id != current_user._id %}
-                                    <img src="{{ url_for('file', filename=user.profile_image) }}" alt="Photo de profile">
+                                    {% if user.profile_image %}
+                                        <img src="{{ url_for('file', filename=user.profile_image) }}" alt="Photo de profil">
+                                    {% else %}
+                                        <img src="/static/images/image.png" alt="Photo de profil">
+                                    {% endif %}
                                 {% else %}
                                     <label for="profileImgInput" style="cursor: pointer;">
-                                        <img src="{{ url_for('file', filename=user.profile_image) }}" alt="Photo de profile">
+                                        {% if user.profile_image %}
+                                            <img src="{{ url_for('file', filename=user.profile_image) }}" alt="Photo de profile">
+                                        {% else %}
+                                            <img src="/static/images/image.png" alt="Photo de profil">
+                                        {% endif %}
                                     </label>
                                 {% endif %}
                             </div>
@@ -61,7 +69,7 @@
                     <div class="profile-grid">
                         <div class="row profile-grid__items">
 
-                            {% if userImg %}
+                            {% if userImg and userImg.count() %}
                                 {% for res in userImg %}
                                     <div class="col-xs-12 col-md-6 col-lg-4" style="padding: 10px;">
                                         <div class="card" style="margin: 0;">

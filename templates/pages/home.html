@@ -8,7 +8,7 @@
                         <div class="row">
                             <div class="col-lg-12 js-feed">
 
-                                {% if homeImg %}
+                                {% if homeImg and homeImg.count() %}
                                     {% for res in homeImg %}
                                         <div style="padding: 10px;">
                                             <div class="card" style="margin: 0;">

@@ -81,12 +81,9 @@ def manage_assets():
 @login_required
 def home():
 	followees = []
-	homeImg = []
-	for res in mongo.db.follow.find({"follower": current_user._id, "end": None}, {"followee": 1}):
-		followees.append(ObjectId(res["followee"]))
-	for res2 in followees:
-		for res3 in mongo.db.images.find({"user_id": res2}):
-			homeImg.insert(0, res3)
+	for user in mongo.db.follow.find({"follower": current_user._id, "end": None}, {"followee": 1}):
+		followees.append(ObjectId(user["followee"]))
+	homeImg = mongo.db.images.find({ "user_id": { "$in": followees }}).sort("date", -1).limit(6)
 	return render_template('pages/home.html', title="Accueil", homeImg=homeImg)
 
 @app.route('/user/<string:username>')
@@ -271,8 +268,11 @@ def inscription():
 @app.route('/api/feed', methods=['GET'])
 def apiFeed():
 	if request.args.get('offset') is not None:
-		offset = int(request.args.get('offset'))
-		images = mongo.db.images.find().limit(6).skip(offset)
+		offset = int(request.args.get('offset'));
+		followees = [];
+		for user in mongo.db.follow.find({"follower": current_user._id, "end": None}, {"followee": 1}):
+			followees.append(ObjectId(user["followee"]))
+		images = mongo.db.images.find({ "user_id": { "$in": followees }}).sort("date", -1).limit(6).skip(offset)
 		return dumps(images)
 	return abort(500, 'Missing offset param')
 

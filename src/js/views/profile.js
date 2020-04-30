@@ -28,7 +28,6 @@ export default class {
         xhr.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
         xhr.onload = () => {
             if (xhr.status >= 200 && xhr.status < 400) {
-                console.log("Follow", el);
                 el.classList.remove('is-loading', 'js-action-follow', 'profile__action--follow');
                 el.classList.add('js-action-unfollow', 'profile__action--unfollow')
                 el.innerHTML = '<i class="material-icons right">check</i> Ne plus suivre';
@@ -50,7 +49,6 @@ export default class {
         xhr.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
         xhr.onload = () => {
             if (xhr.status >= 200 && xhr.status < 400) {
-                console.log("unFollow", el);
                 el.classList.remove('is-loading', 'js-action-unfollow', 'profile__action--unfollow');
                 el.classList.add('js-action-follow', 'profile__action--follow')
                 el.innerHTML = '<i class="material-icons right">add_circle_outline</i> Suivre';
