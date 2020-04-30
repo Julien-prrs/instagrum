@@ -82,12 +82,15 @@ def manage_assets():
 def home():
 	followees = []
 	homeImg = []
+	likes = []
 	for res in mongo.db.follow.find({"follower": current_user._id, "end": None}, {"followee": 1}):
 		followees.append(ObjectId(res["followee"]))
 	for res2 in followees:
 		for res3 in mongo.db.images.find({"user_id": res2}):
 			homeImg.insert(0, res3)
-	return render_template('pages/home.html', title="Accueil", homeImg=homeImg)
+	for res4 in mongo.db.likes.find({"user_id": current_user._id}):
+		likes.append(res4)
+	return render_template('pages/home.html', title="Accueil", homeImg=homeImg, likes=likes, nblikes=len(likes), user=current_user)
 
 @app.route('/user/<string:username>')
 def profile(username):
@@ -109,7 +112,7 @@ def importImage():
 		image = request.files["image"]		
 		if image.filename != "":
 			mongo.save_file(image.filename, image)
-			mongo.db.images.insert({"username": request.form.get("username"),"user_id": current_user._id, "image_name": image.filename, "date": datetime.now().strftime('%d/%m/%Y %H:%M:%S'), "title": request.form.get("image_title"), "description": request.form.get("image_description")})
+			mongo.db.images.insert({"username": request.form.get("username"), "user_id": current_user._id, "image_name": image.filename, "date": datetime.now().strftime('%d/%m/%Y %H:%M:%S'), "title": request.form.get("image_title"), "description": request.form.get("image_description")})
 	return redirect(url_for('profile', username=current_user.username))
 
 @app.route('/importImageProfile', methods=["POST"])
@@ -126,6 +129,16 @@ def deleteImage(filename):
 	if filename != "":
 		mongo.db.images.delete_one({"image_name": filename})
 	return redirect(url_for('profile', username=current_user.username))
+
+@app.route('/like/<file_id>', methods=["POST"])
+def likeImage(file_id):
+	if file_id != "":
+		like = mongo.db.likes.find({"user_id": current_user._id, "file_id": file_id})
+		if like.count() == 0:
+			mongo.db.likes.insert({"user_id": current_user._id, "file_id": file_id})
+		else :
+			mongo.db.likes.delete_one({"user_id": current_user._id, "file_id": file_id})
+	return redirect(url_for('home'))
 
 @app.route('/file/<filename>')
 def file(filename):
