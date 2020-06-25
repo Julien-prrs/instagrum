@@ -8,7 +8,7 @@
                         <div class="row">
                             <div class="col-lg-12 js-feed">
 
-                                {% if homeImg and homeImg.count() %}
+                                {# {% if homeImg and homeImg.count() %} #}
                                     {% for res in homeImg %}
                                         <div style="padding: 10px;">
                                             <div class="card" style="margin: 0;">
@@ -24,11 +24,17 @@
                                             </div>
                                         </div>
                                     {% endfor %}
-                                {% else %}
+                                {# {% else %}
                                     <div style="width: 440px; margin: 100px auto">
                                         <p style="text-align:center; font-style: italic; color: #b4b4b4">Aucun contenu récent</p>
                                     </div>
-                                {% endif %}
+                                {% endif %} #}
+
+                                {% for like in likes %}
+                                    {% if like.file_id == res._id %}
+                                        
+                                    {% endif %}
+                                {% endfor %}
 
                             </div>
                         </div>

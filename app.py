@@ -90,14 +90,21 @@ def home():
 
 	homeImg = []
 	likes = []
+
+	# follow
 	for res in mongo.db.follow.find({"follower": current_user._id, "end": None}, {"followee": 1}):
 		followees.append(ObjectId(res["followee"]))
+
+	# Posts
 	for res2 in followees:
 		for res3 in mongo.db.images.find({"user_id": res2}):
 			homeImg.insert(0, res3)
+
+	# Likes
 	for res4 in mongo.db.likes.find({"user_id": current_user._id}):
 		likes.append(res4)
-	return render_template('pages/home.html', title="Accueil", homeImg=homeImg, likes=likes, nblikes=len(likes), user=current_user)
+
+	return render_template('pages/home.html', title="Accueil", homeImg=homeImg, likes=likes)
 
 @app.route('/user/<string:username>')
 def profile(username):
